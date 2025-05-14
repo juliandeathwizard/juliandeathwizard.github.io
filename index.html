@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wizard101 Gear Calculator</title>
+  <!-- Include external libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <!-- Link to your external stylesheet -->
+  <!-- <link rel="stylesheet" href="styles.css" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/juliandeathwizard/juliandeathwizard.github.io@main/styles.css">
+</head>
+<body>
+<div id="splash">
+  <div class="splash-message">
+    <p>Loading data, please wait...</p>
+  </div>
+  <div id="splash-icons"></div>
+</div>
+  <div class="container">
+    <h1>Wizard101 Gear Calculator</h1>
+    
+  <!-- Row 1: Sort by, School, and Level -->
+<div class="top-fields">
+  <div class="field">
+    <label for="sortby-select">Sort by</label>
+    <select id="sortby-select" class="sortby-select">
+      <option value="name" selected>Name</option>
+      <option value="damage">Damage</option>
+      <!--<option value="pierce">Pierce</option>-->
+      <!--<option value="critrating">Critical Rating</option>-->
+      <option value="resistance">Resistance</option>
+      <!--<option value="accuracy">Accuracy</option>-->
+      <!--<option value="health">Health</option>-->
+      <!--<option value="powerpip">Power Pip Chance</option>-->
+      <!--<option value="shadowpip">Shadow Pip Rating</option>-->
+    </select>
+  </div>
+  <div class="field">
+    <label for="school-select">School</label>
+    <select id="school-select" class="school-select">
+      <option value="" disabled selected>Select a School</option>
+      <option value="fire">Fire</option>
+      <option value="ice">Ice</option>
+      <option value="storm">Storm</option>
+      <option value="myth">Myth</option>
+      <option value="life">Life</option>
+      <option value="death">Death</option>
+      <option value="balance">Balance</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="level-input">Level</label>
+    <input type="number" id="level-input" placeholder="Enter level (e.g. 100)" min="1" max="160" />
+  </div>
+</div>
+
+    
+    <!-- Row 2: Gear Row (Hat, Robe, Boots, Wand) -->
+    <div class="gear-row">
+      <div class="field">
+        <label for="hat-select">Hat</label>
+        <select id="hat-select" class="gear-select">
+          <option value="" disabled selected>Select a Hat</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="robe-select">Robe</label>
+        <select id="robe-select" class="gear-select">
+          <option value="" disabled selected>Select a Robe</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="boots-select">Boots</label>
+        <select id="boots-select" class="gear-select">
+          <option value="" disabled selected>Select Boots</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="wand-select">Wand</label>
+        <select id="wand-select" class="gear-select">
+          <option value="" disabled selected>Select a Wand</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Row 3: Accessory Row (Deck, Athame, Amulet, Ring) -->
+    <div class="accessory-row">
+      <div class="field">
+        <label for="deck-select">Deck</label>
+        <select id="deck-select" class="gear-select">
+          <option value="" disabled selected>Select a Deck</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="athame-select">Athame</label>
+        <select id="athame-select" class="gear-select">
+          <option value="" disabled selected>Select an Athame</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="amulet-select">Amulet</label>
+        <select id="amulet-select" class="gear-select">
+          <option value="" disabled selected>Select an Amulet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ring-select">Ring</label>
+        <select id="ring-select" class="gear-select">
+          <option value="" disabled selected>Select a Ring</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Row 4: Jewels Section -->
+	<div class="jewel-section">
+		<button type="button" id="add-jewels-button" class="add-button">Add Jewels</button>
+		<p class="jewel-explanation">Please add jewels after choosing the gear above.</p>
+	<!-- Container for dynamic jewel dropdowns -->
+		<div id="jewel-container"></div>
+	</div>
+
+
+
+    <!-- Row 5: Pet (Talent) Section -->
+    <div class="pet-section">
+      <h2>Pet</h2>
+	  <div class="explanation">
+    Please choose a talent and enter the stats manually.
+  </div>
+      <!-- Row 5.1: Talent Labels -->
+      <div class="pet-row">
+        <div class="pet-field">Talent 1</div>
+        <div class="pet-field">Talent 2</div>
+        <div class="pet-field">Talent 3</div>
+        <div class="pet-field">Talent 4</div>
+        <div class="pet-field">Talent 5</div>
+      </div>
+      <!-- Row 5.2: Talent Type Dropdowns -->
+      <div class="pet-row">
+        <div class="pet-field">
+          <select id="pet-talent1-type" class="pet-talent-select">
+            <option value="" disabled selected>Select a Talent</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="pet-field">
+          <select id="pet-talent2-type" class="pet-talent-select">
+            <option value="" disabled selected>Select a Talent</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="pet-field">
+          <select id="pet-talent3-type" class="pet-talent-select">
+		  <option value="" disabled selected>Select a Talent</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="pet-field">
+          <select id="pet-talent4-type" class="pet-talent-select">
+            <option value="" disabled selected>Select a Talent</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="pet-field">
+          <select id="pet-talent5-type" class="pet-talent-select">
+            <option value="" disabled selected>Select a Talent</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+      </div>
+      <!-- Row 5.3: Talent Stat Input Fields -->
+      <div class="pet-row">
+        <div class="pet-field">
+          <input type="number" id="pet-talent1" placeholder="Enter stat" />
+        </div>
+        <div class="pet-field">
+          <input type="number" id="pet-talent2" placeholder="Enter stat" />
+        </div>
+        <div class="pet-field">
+          <input type="number" id="pet-talent3" placeholder="Enter stat" />
+        </div>
+        <div class="pet-field">
+          <input type="number" id="pet-talent4" placeholder="Enter stat" />
+        </div>
+        <div class="pet-field">
+          <input type="number" id="pet-talent5" placeholder="Enter stat" />
+        </div>
+      </div>
+    </div>
+    
+    <!-- Row 6: Mount Section -->
+    <div class="mount-section">
+      <h2>Mount</h2>
+	   <div class="explanation">
+    Please choose a boost and enter the stats manually.
+  </div>
+      <!-- Mount labels row -->
+      <div class="mount-label-row">
+        <div class="mount-field">Boost</div>
+        <div class="mount-field">Stat</div>
+      </div>
+      <!-- Mount input row -->
+      <div class="mount-row">
+        <div class="mount-field">
+          <select id="mount-select" class="mount-select">
+            <option value="" disabled selected>Select a Mount</option>
+            <option value="damage">Damage</option>
+            <option value="Resistance">Resistance</option>
+            <option value="Accuracy">Accuracy</option>
+            <option value="Critical Rating">Critical Rating</option>
+            <option value="Critical Block Rating">Critical Block Rating</option>
+            <option value="Armor Piercing">Armor Piercing</option>
+            <option value="Pip Conversion">Pip Conversion</option>
+            <option value="Stun Resistance">Stun Resistance</option>
+            <option value="Incoming Healing">Incoming Healing</option>
+            <option value="Outgoing Healing">Outgoing Healing</option>
+            <option value="Power Pips">Power Pips</option>
+            <option value="Shadow Pip Bonus">Shadow Pip Bonus</option>
+            <option value="Archmastery">Archmastery</option>
+            <option value="Health">Health</option>
+            <option value="Mana">Mana</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="mount-field">
+          <input type="number" id="mount-stat" placeholder="Enter mount stat" />
+        </div>
+      </div>
+    </div>
+    
+    <!-- Row 7: Action Row -->
+    <div class="action-row">
+      <button id="calculate-btn" class="action-button calculate-button">Calculate</button>
+      <button id="clear-btn" class="action-button clear-button">Clear</button>
+    </div>
+    
+<!-- Updated Row 8: Final Stats Section with Game Icons -->
+<div id="final-stats" class="final-stats">
+
+<!-- Line 1: Damage (% and Flat) -->
+<div class="final-stats-line">
+  <h2>Damage</h2>
+
+<!-- Composite Row for Damage Values -->
+<div class="subrow">
+  <div class="subrow-label">
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Damage.png" alt="Percentage Damage Icon" class="subrow-icon percent">
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Flat_Damage.png" alt="Flat Damage Icon" class="subrow-icon flat">
+  </div>
+  <div class="composite-grid">
+    <!-- Composite box for Fire -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Storm -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Myth -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Life -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Death -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Balance -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Shadow -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  <!-- Line 2: Resistance (% and Flat) -->
+  <div class="final-stats-line">
+    <h2>Resistance</h2>
+	
+	<!-- Composite Row for Resistance Values -->
+<div class="subrow">
+  <div class="subrow-label">
+	<img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Resistance.png" alt="Resistance Icon" class="subrow-icon percent">
+	<img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Flat_Resistance.png" alt="Flat Resistance Icon" class="subrow-icon flat">
+  </div>
+  <div class="composite-grid">
+    <!-- Composite box for Fire -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+		
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Storm -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Myth -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Life -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Death -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Balance -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	<!-- Composite box for Shadow -->
+    <div class="composite-box">
+      <div class="top-floor">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor">
+        <div class="stat-value">0</div>
+      </div>
+      <div class="bottom-floor">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  <!-- Line 3: Accuracy -->
+  <div class="final-stats-line">
+    <h2>
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Accuracy.png" alt="Accuracy Icon" class="main-icon"> 
+	Accuracy
+  </h2>
+	
+	 <!-- Composite Grid containing composite-box2 elements -->
+  <div class="stat-grid grid-8">
+    <!-- Composite box for Fire -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Storm -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Myth -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Life -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Death -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Balance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Shadow -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Line 4: Critical Rating -->
+  <div class="final-stats-line">
+    <h2>
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Critical.png" alt="Critical Icon" class="main-icon"> 
+	Critical Rating
+  </h2>
+  	 <!-- Composite Grid containing composite-box2 elements -->
+  <div class="stat-grid grid-8">
+    <!-- Composite box for Fire -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Storm -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Myth -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Life -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Death -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Balance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Shadow -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Line 5: Critical Block Rating -->
+  <div class="final-stats-line">
+    <h2>
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Critical_Block.png" alt="Critical Block Icon" class="main-icon">
+    Critical Block Rating
+  </h2>
+   <!-- Composite Grid containing composite-box2 elements -->
+  <div class="stat-grid grid-8">
+    <!-- Composite box for Fire -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Storm -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Myth -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Life -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Death -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Balance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Shadow -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Line 6: Armor Piercing -->
+  <div class="final-stats-line">
+    <h2>
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Armor_Piercing.png" alt="Armor Piercing Icon" class="main-icon">
+    Armor Piercing
+  </h2>
+    <!-- Composite Grid containing composite-box2 elements -->
+  <div class="stat-grid grid-8">
+    <!-- Composite box for Fire -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Ice -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Storm -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Myth -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Life -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Death -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Balance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Shadow -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Line 6B: Pip Conversion -->
+<div class="final-stats-line">
+  <h2>
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Pip_Conversion.png" alt="Pip Conversion Icon" class="main-icon">
+    Pip Conversion
+  </h2>
+  <!-- Composite Grid containing composite-box2 elements with 8 columns and 2 floors each -->
+  <div class="stat-grid grid-8">
+    <!-- For Fire -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Fire.png" alt="Fire Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Ice -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Ice.png" alt="Ice Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Storm -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Storm.png" alt="Storm Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Myth -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Myth.png" alt="Myth Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Life -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Life.png" alt="Life Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Death -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Death.png" alt="Death Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Balance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Balance.png" alt="Balance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- For Shadow -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow.png" alt="Shadow Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Line 7: Other Stats -->
+  <div class="final-stats-line">
+    <h2>Other Stats</h2>
+	    <!-- Composite Grid containing composite-box2 elements -->
+  <div class="stat-grid grid-7">
+    <!-- Composite box for Stun_Resistance -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Stun_Resistance.png" alt="Stun Resistance Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Incoming Healing -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Incoming.png" alt="Incoming Healing Icon" class="stat-icon">
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Healing.png" alt="Healing Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Outgoing Healing -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+            <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Outgoing.png" alt="Outgoing Healing Icon" class="stat-icon">
+    <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Healing.png" alt="Healing Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Power Pips -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Power_Pip.png" alt="Power Pips Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Shadow Pip Bonus -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Shadow_Pip.png" alt="Shadow Pip Bonus Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    <!-- Composite box for Archmastery -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Archmastery.png" alt="Archmastery Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Line 8: Vitals (Health, Mana, Energy) -->
+  <div class="final-stats-line">
+    <h2>Vitals</h2>
+    <div class="stat-grid grid-3">
+	 <!-- Composite box for Health -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Health.png" alt="Health Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	 <!-- Composite box for Mana -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Mana.png" alt="Mana Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+	 <!-- Composite box for Energy -->
+    <div class="composite-box2">
+      <div class="top-floor2">
+        <img src="https://raw.githubusercontent.com/juliandeathwizard/juliandeathwizard.github.io/main/Icons/Energy.png" alt="Energy Icon" class="stat-icon">
+      </div>
+      <div class="middle-floor2">
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+  </div>
+<!--<script src="Script.js"></script>-->
+<script src="https://cdn.jsdelivr.net/gh/juliandeathwizard/juliandeathwizard.github.io@main/script.js"></script>
+</body>
+</html>
